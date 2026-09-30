@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Промпт для формул в Word: вставить формулу из ChatGPT и DeepSeek</title>
+    <meta name="description" content="Готовый промпт, после которого ИИ выводит формулы так, что их можно просто скопировать в Word: математический курсив, без LaTeX, ^ и _. Для ChatGPT, DeepSeek, ЯндексGPT.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://garaevk.github.io/formula/">
+    <meta property="og:title" content="Промпт для формул в Word — без LaTeX и кашы">
+    <meta property="og:description" content="Скопировал формулу из ИИ → вставил в Word → выглядит как типографская. Готовый промпт для учителя.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://garaevk.github.io/formula/">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; margin: 0; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .card { background: #fff; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-width: 760px; width: 100%; padding: 40px; }
+        .badge { display: inline-block; padding: 6px 14px; border-radius: 999px; background: linear-gradient(135deg, #2b6cff, #8b3dff); color: #fff; font-size: 13px; font-weight: 600; }
+        h1 { color: #12203c; margin: 16px 0 8px; font-size: 28px; line-height: 1.2; }
+        h2 { color: #12203c; font-size: 20px; margin: 26px 0 10px; }
+        .sub { color: #4a5670; font-size: 17px; margin: 0 0 20px; }
+        .ba { border-radius: 12px; padding: 14px 16px; margin: 10px 0; font-family: Consolas, 'Courier New', monospace; font-size: 15px; white-space: pre-wrap; }
+        .ba.bad { background: #fdecea; color: #a5281b; border-left: 4px solid #d93025; }
+        .ba.good { background: #e6f4ea; color: #137333; border-left: 4px solid #34a853; }
+        .ba .lbl { display: block; font-family: 'Segoe UI', sans-serif; font-size: 12px; font-weight: 700; margin-bottom: 6px; text-transform: uppercase; }
+        pre { background: #101a30; color: #e8edf7; border-radius: 12px; padding: 18px; font-size: 13.5px; line-height: 1.55; white-space: pre-wrap; word-break: break-word; max-height: 340px; overflow-y: auto; margin: 0 0 12px; }
+        .btn { display: block; text-align: center; background: linear-gradient(135deg, #2b6cff, #8b3dff); color: #fff; border: 0; border-radius: 12px; padding: 16px; font-size: 17px; font-weight: 700; cursor: pointer; width: 100%; font-family: inherit; transition: transform .15s; }
+        .btn:hover { transform: translateY(-2px); }
+        ol.steps { color: #2a3550; line-height: 1.7; padding-left: 22px; margin: 12px 0 20px; }
+        .note { color: #6b7688; font-size: 13px; text-align: center; margin-top: 10px; }
+        .note a { color: #2b6cff; }
+        .subs { margin-top: 26px; text-align: center; }
+        .subs p { color: #4a5670; margin-bottom: 10px; }
+        .subs a { display: inline-block; padding: 12px 22px; margin: 0 5px; border-radius: 10px; color: #fff; text-decoration: none; font-weight: 600; }
+        .subs a.vk { background: #0077FF; }
+        .subs a.max { background: linear-gradient(135deg, #2b6cff, #8b3dff); }
+        .subs a.dzen { background: #000; }
+        .foot { margin-top: 26px; text-align: center; color: #6b7688; font-size: 14px; }
+        .foot a { color: #2b6cff; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <span class="badge">Бесплатный промпт · «Нетипичный учИИтель»</span>
+        <h1>Формулы из ИИ — прямо в Word</h1>
+        <p class="sub">ChatGPT, DeepSeek или ЯндексGPT выводят формулу так, что её остаётся
+        только скопировать и вставить в Word. Без LaTeX, MathML и режима формул Word.</p>
+
+        <div class="ba bad"><span class="lbl">Без промпта</span>y = x^2 - 5*x + 6</div>
+        <div class="ba good"><span class="lbl">С промптом</span>𝑥² − 5𝑥 + 6 = 0</div>
+
+        <h2>Скопируй промпт целиком</h2>
+        <pre id="prompt">Выводи все математические формулы в виде чистого Unicode-текста, который при копировании в Microsoft Word выглядит как настоящая типографская формула — без использования MathML, LaTeX, OMML и без режима формул Word.
+
+
+Обязательные правила оформления:
+
+
+1. Переменные записывай математическим курсивным Unicode-символом, а не обычной латинской буквой.
+   Строчные: 𝑎 𝑏 𝑐 𝑑 𝑒 𝑓 𝑔 𝑖 𝑗 𝑘 𝑙 𝑚 𝑛 𝑜 𝑝 𝑞 𝑟 𝑠 𝑡 𝑢 𝑣 𝑤 𝑥 𝑦 𝑧
+   (блок U+1D44E…U+1D467), заглавные: 𝐴 𝐵 𝐶 𝐷 … (блок U+1D434…U+1D44D).
+   Цифры всегда обычные прямые: 0 1 2 3 4 5 6 7 8 9.
+
+2. Названия функций пиши обычным прямым начертанием, НЕ курсивом: sin, cos, tan, cot, log, ln, lg, exp, max, min.
+   Между названием функции и её аргументом — один пробел: sin 𝑥, log₂ 𝑛.
+
+3. Степени записывай надстрочными Unicode-символами, а не через «^»:
+   𝑥⁰ 𝑥¹ 𝑥² 𝑥³ 𝑥⁴ 𝑥⁵ 𝑥⁶ 𝑥⁷ 𝑥⁸ 𝑥⁹ 𝑥ⁿ 𝑥⁻¹ 𝑥⁻²
+   (U+2070, U+00B9, U+00B2, U+00B3, U+2074…U+2079, U+207F, комбинация U+207B + цифра).
+
+4. Нижние индексы записывай подстрочными Unicode-символами, а не через «_»:
+   цифры: ₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ (U+2080…U+2089);
+   буквы: ₐ ₑ ₒ ₓ ₕ ₖ ₗ ₘ ₙ ₚ ₛ ₜ ᵢ ᵣ ᵤ ᵥ.
+   Если нужного нижнего индекса-буквы нет в Unicode — обозначь индекс словом или цифрой,
+   но НИКОГДА не используй символ подчёркивания «_».
+
+5. Знак минуса — только настоящий математический минус − (U+2212), в том числе в отрицательных числах:
+   −5, −𝑥, −3𝑦. Не дефис «-», не короткое тире «–».
+
+6. Знак умножения — «·» (U+00B7) или «×» (U+00D7), но не звёздочка «*».
+   Между числом и буквой пробел и точка не нужны: 5𝑥, 4𝑎𝑐, 2𝜋.
+   Перед скобкой точка обязательна: 2 · (𝑥 + 1), 3 · (𝑎 + 𝑏).
+
+7. Знак деления — «÷» (U+00F7) или дробь через «/» с пробелами: (𝑎 + 𝑏) / (𝑐 − 𝑑).
+   Во вложенной дроби пиши компактно, в скобках, без пробелов вокруг «/»: (𝑎 + 𝑏)/(𝑐 − 𝑑).
+
+8. Квадратный корень — символ √ (U+221A) с подкоренным выражением в скобках:
+   √(𝑥² + 1), √(𝑏² − 4𝑎𝑐). Если под корнем одно число или одно слагаемое — скобки можно не ставить: √2, √𝑥.
+
+9. Знак «плюс-минус» — ± (U+00B1). «Не равно» — ≠ (U+2260), «меньше или равно» — ≤ (U+2264),
+   «больше или равно» — ≥ (U+2265), «примерно равно» — ≈ (U+2248), «меньше» — &lt;, «больше» — &gt;.
+
+10. Греческие буквы — обычными символами греческого алфавита: α β γ δ ε θ λ μ π σ φ ω и
+    заглавные Γ Δ Θ Λ Π Σ Φ Ω.
+    НЕ используй курсивные греческие символы из блока U+1D6E2…U+1D704 — в шрифтах Word их нет,
+    они исказятся или пропадут.
+
+11. Вокруг каждого знака = + − · × ÷ ≠ ≤ ≥ ≈ &lt; &gt; ставь ровно один пробел с двух сторон.
+    Без пробелов: в степенях (𝑥²), между коэффициентом и переменной (5𝑥), в скобках и вокруг них (𝑥 + 1),
+    внутри √(…), между √ и числом (√2), в индексах (𝑎₁).
+
+12. Интервалы и области определения — как в школьной записи: [0; 10], (−∞; 5], 𝑥 ∈ [−2; 5].
+
+13. Каждую формулу выводи на отдельной строке, без обрамления в код-блок и без обратных кавычек,
+    если пользователь явно не попросил иначе.
+
+14. НЕ используй LaTeX-разметку (\frac, \sqrt, ^, _, {, }).
+15. НЕ используй MathML-теги (&lt;math&gt;, &lt;mrow&gt;, &lt;msup&gt; и т.п.) и OMML.
+16. НЕ оборачивай формулы в обратные кавычки, если не просят.
+
+
+Примеры правильного вывода:
+
+𝑥² − 5𝑥 + 6 = 0
+
+𝑥 = (−𝑏 ± √(𝑏² − 4𝑎𝑐)) / (2𝑎)
+
+𝑆 = π𝑟² · (α / 2)
+
+sin 𝑥 + cos 𝑥 = 1
+
+𝑓(𝑥) = 3𝑥² − 2𝑥 + 7
+
+𝐷 = 𝑏² − 4𝑎𝑐
+
+𝑥₁ + 𝑥₂ = −𝑏 / 𝑎
+
+𝑡 = (−𝑣₀ + √(𝑣₀² + 2𝑔ℎ)) / 𝑔
+
+
+Соблюдай эти правила строго для всех формул в ответе. Обычный текст вокруг формул пиши
+обычными символами, без оформления.</pre>
+        <button class="btn" id="copyBtn">📋 Скопировать промпт</button>
+
+        <h2>Как пользоваться</h2>
+        <ol class="steps">
+            <li>Вставь промпт в чат (ChatGPT, DeepSeek, ЯндексGPT, GigaChat).</li>
+            <li>Попроси: «выведи формулу квадратного уравнения» или вставь свой текст задания.</li>
+            <li>Скопируй формулу из ответа и вставь в Word обычной вставкой Ctrl+V.</li>
+            <li>Если буквы выглядят неаккуратно — выдели формулу и смени шрифт на Cambria.</li>
+        </ol>
+
+        <a class="btn" href="demo.docx" download>⬇ Скачать демо-файл с формулами</a>
+        <p class="note">Открой в Word: сверху ответы ИИ без промпта, снизу — с промптом.</p>
+
+        <div class="subs">
+            <p>Новые промпты и инструменты — в каналах:</p>
+            <a class="vk" href="https://vk.com/club240137335" target="_blank" rel="noopener">ВКонтакте</a>
+            <a class="max" href="https://max.ru/channel_netipichnyi_uchitel" target="_blank" rel="noopener">MAX</a>
+            <a class="dzen" href="https://dzen.ru/netypichnyi_uchitel" target="_blank" rel="noopener">Дзен</a>
+        </div>
+
+        <p class="foot">Другие материалы: <a href="https://garaevk.github.io/prompts/">10 ИИ-промптов</a> ·
+        <a href="https://garaevk.github.io/templates/">5 шаблонов</a> ·
+        <a href="https://garaevk.github.io/ktp-client/">КТП-генератор</a> ·
+        <a href="https://garaevk.github.io/menu-client/">разбивка меню</a></p>
+    </div>
+    <script>
+        document.getElementById('copyBtn').addEventListener('click', function () {
+            var text = document.getElementById('prompt').textContent;
+            navigator.clipboard.writeText(text).then(function () {
+                var b = document.getElementById('copyBtn');
+                var old = b.textContent;
+                b.textContent = '✅ Скопировано!';
+                setTimeout(function () { b.textContent = old; }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
